@@ -35,3 +35,13 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+
+*/mvnw
+*/mvnw.cmd
+*/.mvn/**/*
+*/target/**/*
+*/gradlew
+*/gradlew.bat
+*/settings.gradle
+*/gradle/**/*
