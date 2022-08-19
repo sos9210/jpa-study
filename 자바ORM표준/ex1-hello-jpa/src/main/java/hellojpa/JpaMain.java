@@ -13,24 +13,28 @@ public class JpaMain {
 
         //EntityManager는 쓰레드간 공유해선 안된다.
         EntityManager em = emf.createEntityManager();
-/*
 
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Parent parent = new Parent();
-            Child child1 = new Child();
-            Child child2 = new Child();
-            parent.addChild(child1);
-            parent.addChild(child2);
-            em.persist(parent);
+            //저장
+
+
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
+
+            Member member = new Member();
+            member.setUsername("member1");
+            em.persist(member);
+
+            team.addMember(member);
+
+            Team findTeam = em.find(Team.class,team.getId());
+            List<Member> members = findTeam.getMembers();
 
             em.flush();
             em.clear();
-
-            Parent findParent = em.find(Parent.class, parent.getId());
-
-            em.remove(findParent);
 
             tx.commit();
         }catch (Exception e){
@@ -40,6 +44,5 @@ public class JpaMain {
         }
 
         emf.close();
- */
     }
 }
