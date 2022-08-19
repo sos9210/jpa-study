@@ -12,12 +12,31 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")   //조인컬럼명
+    private Team team;
 
-    private String city;
-    private String street;
-    private String zipcode;
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }
