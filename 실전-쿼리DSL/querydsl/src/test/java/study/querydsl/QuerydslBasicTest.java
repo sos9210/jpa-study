@@ -589,4 +589,69 @@ public class QuerydslBasicTest {
     private BooleanExpression allEq(String usernameCond, Integer ageCond) {
         return usernameEq(usernameCond).and(ageEq(ageCond));
     }
+
+    @Test
+    void bulkUpdate() {
+
+        long count = queryFactory
+                .update(member)
+                .set(member.username, "비회원")
+                .where(member.age.lt(28))
+                .execute();
+
+        List<Member> fetch = queryFactory
+                .selectFrom(member)
+                .fetch();
+        for (Member fetch1 : fetch) {
+            System.out.println("fetch1 = " + fetch1);
+        }
+    }
+
+    @Test
+    void bulkAdd() {
+        long execute = queryFactory
+                .update(member)
+                .set(member.age, member.age.add(1))
+                .execute();
+    }
+
+    @Test
+    void bulkDelete() {
+        long execute = queryFactory
+                .delete(member)
+                .where(member.age.gt(18))
+                .execute();
+
+    }
+
+    @Test
+    void sqlFunction() {
+        List<String> result = queryFactory
+                .select(
+                        Expressions.stringTemplate(
+                                "function('replace',{0},{1},{2})",
+                                member.username, "member", "M"
+                        )
+                ).from(member)
+                .fetch();
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
+
+    @Test
+    void sqlFunction2() {
+        //ANSI표준함수는 queryDsl이 기본적으로 제공한다
+        List<String> result = queryFactory
+                .select(member.username)
+                .from(member)
+//                .where(member.username.eq(Expressions.stringTemplate("function('lower',{0})", member.username)))
+                .where(member.username.eq(member.username.lower()))
+                .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+
+        }
+    }
 }
